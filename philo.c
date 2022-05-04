@@ -6,7 +6,7 @@
 /*   By: vess <vess@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 14:54:43 by vess              #+#    #+#             */
-/*   Updated: 2022/05/04 15:42:49 by vess             ###   ########.fr       */
+/*   Updated: 2022/05/04 18:57:30 by vess             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	sleep_think(t_philo *philo)
 	print_msg(philo, MSG_THK);
 	pthread_mutex_unlock(&philo->info->write_mutex);
 }
+
 static void	take_fork(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
@@ -53,7 +54,6 @@ static void	take_fork(t_philo *philo)
 		pthread_mutex_unlock(&philo->info->write_mutex);
 	}
 }
-
 
 void	activity(t_philo *philo)
 {
@@ -92,7 +92,6 @@ void	*is_dead(void *av)
 	t_philo	*philo;
 
 	philo = (t_philo *)av;
-
 	ft_usleep(philo->info->die + 1);
 	pthread_mutex_lock(&philo->info->time_eat);
 	pthread_mutex_lock(&philo->info->finish);
@@ -106,8 +105,11 @@ void	*is_dead(void *av)
 		pthread_mutex_unlock(&philo->info->write_mutex);
 		check_death(philo, 1);
 	}
-	pthread_mutex_unlock(&philo->info->time_eat);
-	pthread_mutex_unlock(&philo->info->finish);
+	else
+	{
+		pthread_mutex_unlock(&philo->info->time_eat);
+		pthread_mutex_unlock(&philo->info->finish);
+	}
 	return (NULL);
 }
 
@@ -133,7 +135,8 @@ void	*philo(void *av)
 				pthread_mutex_unlock(&philo->info->finish);
 				check_death(philo, 2);
 			}
-			pthread_mutex_unlock(&philo->info->finish);
+			else
+				pthread_mutex_unlock(&philo->info->finish);
 			return (0);
 		}
 	}
