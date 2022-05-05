@@ -6,37 +6,14 @@
 /*   By: vess <vess@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 14:54:43 by vess              #+#    #+#             */
-/*   Updated: 2022/05/04 18:57:30 by vess             ###   ########.fr       */
+/*   Updated: 2022/05/05 11:07:12 by vess             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	sleep_think(t_philo *philo)
+static void	take_fork2(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->info->write_mutex);
-	print_msg(philo, MSG_SLP);
-	pthread_mutex_unlock(&philo->info->write_mutex);
-	ft_usleep(philo->info->sleep);
-	pthread_mutex_lock(&philo->info->write_mutex);
-	print_msg(philo, MSG_THK);
-	pthread_mutex_unlock(&philo->info->write_mutex);
-}
-
-static void	take_fork(t_philo *philo)
-{
-	if (philo->id % 2 == 0)
-		pthread_mutex_lock(philo->right);
-	else
-		pthread_mutex_lock(&philo->left);
-	pthread_mutex_lock(&philo->info->write_mutex);
-	print_msg(philo, MSG_FORK);
-	pthread_mutex_unlock(&philo->info->write_mutex);
-	if (!philo->right)
-	{
-		ft_usleep(philo->info->die * 2);
-		return ;
-	}
 	if (philo->id % 2 == 0)
 	{
 		if (pthread_mutex_lock(&philo->left))
@@ -55,11 +32,12 @@ static void	take_fork(t_philo *philo)
 	}
 }
 
-void	activity(t_philo *philo)
+static void	take_fork(t_philo *philo)
 {
-
-	/*
-	pthread_mutex_lock(&philo->left);
+	if (philo->id % 2 == 0)
+		pthread_mutex_lock(philo->right);
+	else
+		pthread_mutex_lock(&philo->left);
 	pthread_mutex_lock(&philo->info->write_mutex);
 	print_msg(philo, MSG_FORK);
 	pthread_mutex_unlock(&philo->info->write_mutex);
@@ -68,11 +46,11 @@ void	activity(t_philo *philo)
 		ft_usleep(philo->info->die * 2);
 		return ;
 	}
-	pthread_mutex_lock(philo->right);
-	pthread_mutex_lock(&philo->info->write_mutex);
-	print_msg(philo, MSG_FORK);
-	pthread_mutex_unlock(&philo->info->write_mutex);
-	*/
+	take_fork2(philo);
+}
+
+void	activity(t_philo *philo)
+{
 	take_fork(philo);
 	pthread_mutex_lock(&philo->info->write_mutex);
 	print_msg(philo, MSG_EAT);
@@ -118,8 +96,7 @@ void	*philo(void *av)
 	t_philo	*philo;
 
 	philo = (t_philo *)av;
-	if ((philo->id % 2) == 0)
-		ft_usleep(philo->info->eat / 10);
+	tempo(philo);
 	while (!check_death(philo, 0))
 	{
 		pthread_create(&philo->thread_death, NULL, is_dead, av);

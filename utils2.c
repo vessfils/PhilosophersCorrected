@@ -6,22 +6,11 @@
 /*   By: vess <vess@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 16:53:32 by vess              #+#    #+#             */
-/*   Updated: 2022/05/01 22:50:25 by vess             ###   ########.fr       */
+/*   Updated: 2022/05/05 11:31:43 by vess             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-long int	get_time(void)
-{
-	struct timeval	current_time;
-	long int		time;
-
-	time = 0;
-	gettimeofday(&current_time, NULL);
-	time = current_time.tv_sec * 1000 + current_time.tv_usec / 1000;
-	return (time);
-}
 
 int	ft_isdigit(int c)
 {

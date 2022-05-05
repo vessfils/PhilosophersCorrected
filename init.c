@@ -6,7 +6,7 @@
 /*   By: vess <vess@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 10:00:59 by vess              #+#    #+#             */
-/*   Updated: 2022/05/03 15:31:34 by vess             ###   ########.fr       */
+/*   Updated: 2022/05/05 11:31:43 by vess             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,15 @@ static	int	check_info(t_info *info, int ac)
 {
 	if (ac == 6 && info->m_eat <= 0)
 		return (ft_error("ERROR: wrong num of must eat\n"), 1);
-	if (info->total < 0)
+	if (info->total <= 0)
 		return (ft_error("ERROR: wrong num of philo\n"), 1);
-	if (info->die < 0)
+	if (info->die <= 0)
 		return (ft_error("ERROR: wrong time to die\n"), 1);
-	if (info->eat < 0)
+	if (info->eat <= 0)
 		return (ft_error("ERROR: wrong time to eat\n"), 1);
-	if (info->sleep < 0)
+	if (info->sleep <= 0)
 		return (ft_error("ERROR: wrong time to sleep\n"), 1);
-	return (FT_SUCCESS);
+	return (1);
 }
 
 int	handle_args(int ac, char **av, t_info *tab)
@@ -74,7 +74,7 @@ int	handle_args(int ac, char **av, t_info *tab)
 	tab->m_eat = -1;
 	if (ac == 6)
 		tab->m_eat = ft_atoi(av[5]);
-	check_info(tab, ac);
+	if (check_info(tab, ac))
 	tab->philos = (t_philo *)malloc(sizeof(t_philo) * tab->total);
 	if (!tab->philos)
 		return (ft_error("ERROR: malloc failed\n"), 1);

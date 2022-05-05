@@ -6,7 +6,7 @@
 /*   By: vess <vess@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 22:28:17 by vess              #+#    #+#             */
-/*   Updated: 2022/05/01 10:01:30 by vess             ###   ########.fr       */
+/*   Updated: 2022/05/05 11:07:01 by vess             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,11 @@ int	check_args(int ac, char **av)
 			return (1);
 	}
 	return (0);
+}
+
+void	tempo(t_philo *philo)
+{
+	if ((philo->id % 2) == 0)
+		ft_usleep(philo->info->eat / 10);
+
 }

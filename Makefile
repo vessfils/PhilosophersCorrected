@@ -6,7 +6,7 @@
 #    By: vess <vess@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/01 05:31:56 by lzaccome          #+#    #+#              #
-#    Updated: 2022/05/04 10:57:58 by vess             ###   ########.fr        #
+#    Updated: 2022/05/05 11:07:38 by vess             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ DEPS = $(SRCS:.c=.d)
 
 SRCS =	main.c \
 		utils.c \
-		utils2.c \
+		philo_utils.c \
 		parse.c	\
 		philo.c \
 		print_msg.c \
